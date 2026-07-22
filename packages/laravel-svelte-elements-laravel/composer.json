@@ -1,0 +1,22 @@
+{
+  "name": "dobrys/laravel-svelte-elements",
+  "description": "Laravel service provider companion for the laravel-svelte-elements npm package — serves translations JSON and publishes Vite/JS stubs for Svelte custom elements.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.1",
+    "illuminate/support": "^10.0 || ^11.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dobrys\\SvelteElements\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Dobrys\\SvelteElements\\SvelteElementsServiceProvider"
+      ]
+    }
+  }
+}

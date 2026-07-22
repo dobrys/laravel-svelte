@@ -1,0 +1,29 @@
+{
+  "name": "laravel-svelte-elements",
+  "version": "0.1.0",
+  "description": "Vite plugin + runtime loader for shipping Svelte components as native custom elements inside Laravel (Blade/Livewire) apps.",
+  "type": "module",
+  "license": "MIT",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./vite-plugin": "./vite-plugin.js"
+  },
+  "bin": {
+    "svelte-elements": "./bin/generate-registry.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "vite-plugin.js",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.0.0 || ^4.0.0 || ^5.0.0",
+    "svelte": "^4.0.0 || ^5.0.0",
+    "vite": "^4.0.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "glob": "^10.3.0"
+  }
+}
