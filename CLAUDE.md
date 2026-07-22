@@ -4,7 +4,8 @@
 
 ## Какво е това
 
-Монорепо с два свързани, но отделно публикувани пакета,
+Монорепо с два свързани, но отделно публикувани пакета, плюс демо Laravel
+приложение, което ги консумира и двата.
 Vite entry, който компилира Svelte компоненти като нативни Custom Elements,
 автоматично генерирана registry-карта (tag → dynamic import) и runtime loader
 с lazy-load + `MutationObserver` за динамично добавени тагове (Livewire
@@ -15,6 +16,9 @@ packages/
 ├── laravel-svelte-elements/          npm пакет — Vite plugin + runtime loader
 └── laravel-svelte-elements-laravel/  composer пакет (dobrys/laravel-svelte-elements)
                                         — Laravel service provider, /translations route, publish stubs
+demo/                                  Laravel 13 приложение, линкващо двата пакета
+                                        локално (file: path / composer path repo) — служи
+                                        като единствен end-to-end тест засега
 ```
 
 Композер **не** тегли npm зависимост — двата пакета се инсталират отделно в
@@ -34,6 +38,12 @@ packages/
   подаден `translationsUrl`), сканира DOM за регистрирани тагове, наблюдава с
   `MutationObserver` за нови
 - `bin/generate-registry.js` — CLI еквивалент за ръчно/CI извикване
+- `src/index.js` — browser-safe barrel (само `createLoader` + `__`).
+  **Умишлено НЕ реекспортва `generateRegistry`** — тя ползва Node `fs`/`path`
+  и се тегли само от `registry-plugin.js`/`bin/generate-registry.js` директно
+  от `./generate-registry.js`. Ако добавиш нов export в тази папка, провери
+  дали не тегли Node-only модул обратно в `index.js` (виж commit `e18ed91` —
+  фиксира точно този leak в browser bundle-а).
 
 **composer пакет** (`packages/laravel-svelte-elements-laravel/`):
 - `src/SvelteElementsServiceProvider.php` — регистрира route-а и publishable
@@ -42,6 +52,37 @@ packages/
   от `lang_path("{locale}.json")` (стандартните Laravel JSON преводи)
 - `config/svelte-elements.php` — `translations_uri`, `middleware`
 - `resources/stubs/` — `vite.config.stub.js` и `svelte-all.stub.js` за publish
+
+**demo/** (Laravel 13 приложение, служи и като консуматор за ръчно тестване):
+- линкнато е през `file:../packages/laravel-svelte-elements` (npm,
+  `demo/package.json`) и path repository към
+  `../packages/laravel-svelte-elements-laravel` (composer, `demo/composer.json`)
+  — вижда промени в пакетите веднага, без publish
+- `demo/vite.config.js` — реален пример за wiring:
+  `laravel-vite-plugin` + `...svelteElements({ componentsDir: 'resources/js/components' })`
+- `demo/resources/js/component-registry.js` — auto-generated (не се редактира
+  ръчно), `demo/resources/js/svelte-all.js` — извиква `createLoader()` с
+  `translationsUrl` към composer пакета
+- `demo/resources/js/components/` — `.svelte` компоненти, всеки декларира тага
+  си сам (виж "Конвенции" по-долу); `examples/` са демо компоненти,
+  показани на `/svelte-test` (route в `demo/routes/web.php`,
+  view `demo/resources/views/svelte-test.blade.php`)
+
+## Команди (в `demo/`)
+
+```bash
+composer install && npm install    # инсталира зависимостите (включително линкнатите пакети)
+composer run dev                   # php artisan serve + queue:listen + pail + vite (concurrently)
+npm run dev                        # само Vite dev server (регенерира registry автоматично)
+npm run build                      # production build
+composer test                      # php artisan test (PHPUnit/Pest)
+```
+
+npm пакетът също излага CLI за ръчна регенерация на registry-то извън Vite:
+
+```bash
+npx svelte-elements --components resources/js/components --out resources/js/component-registry.js
+```
 
 ## Конвенции
 
@@ -59,13 +100,13 @@ packages/
 
 ## Тестване на промени
 
-Няма автоматизирани тестове все още. Проверка на промяна означава: linkни
-пакета в реален консуматор (виж "Локално тестване" в root `README.md` —
-`npm link` / `file:` за npm, path-repository за composer) и провери дали
-компонентите се зареждат идентично.
+Няма автоматизирани тестове за пакетите. Проверка на промяна в `packages/`
+означава: пусни я през `demo/` (вече линкнато чрез `file:`/path repository —
+виж "Команди" по-горе) и провери дали компонентите се зареждат идентично
+(`/svelte-test` route). За съвсем нов консуматор проект виж "Локално
+тестване" в root `README.md`.
 
 ## Какво не е готово
 
 Виж чек-листа в root `README.md` ("Следващи стъпки") — най-важното: няма
-реален end-to-end тест в консуматор проект, няма решение за публично
-публикуване (npm/Packagist) vs. частен registry.
+решение за публично публикуване (npm/Packagist) vs. частен registry.
