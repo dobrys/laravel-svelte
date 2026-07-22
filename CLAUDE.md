@@ -106,7 +106,22 @@ npx svelte-elements --components resources/js/components --out resources/js/comp
 (`/svelte-test` route). За съвсем нов консуматор проект виж "Локално
 тестване" в root `README.md`.
 
-## Какво не е готово
+## Публикувани пакети
 
-Виж чек-листа в root `README.md` ("Следващи стъпки") — най-важното: няма
-решение за публично публикуване (npm/Packagist) vs. частен registry.
+И двата пакета вече са публично публикувани:
+- npm: [`laravel-svelte-elements`](https://www.npmjs.com/package/laravel-svelte-elements)
+- Packagist: [`dobrys/laravel-svelte-elements`](https://packagist.org/packages/dobrys/laravel-svelte-elements)
+
+**Важно за composer пакета**: `packages/laravel-svelte-elements-laravel/` в
+това монорепо е dev копие. Packagist не поддържа сочене към поддиректория на
+repo, затова публикуваният source е отделно repo —
+[`dobrys/svelte-elements-for-laravel`](https://github.com/dobrys/svelte-elements-for-laravel)
+(извлечено с `git subtree split`, с webhook към Packagist за автоматичен
+update). Git remote `svelte-elements-for-laravel` в това repo сочи натам. За
+нова версия виж "Публикуване на нова версия" в root `README.md` —
+промените в `packages/laravel-svelte-elements-laravel/` трябва изрично да се
+push-нат (`git subtree push`) към това отделно repo и да се tag-нат там,
+иначе Packagist няма да ги вземе.
+
+npm пакетът (`packages/laravel-svelte-elements/`) няма това ограничение —
+публикува се директно от монорепото (`npm publish` вътре в поддиректорията).

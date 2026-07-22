@@ -12,7 +12,21 @@ packages/
 Композер не може да тегли npm зависимост — двата пакета се инсталират
 отделно и се координират само през версии/документация, не автоматично.
 
-## Локално тестване в консуматор проект (преди публикуване в npm/Packagist)
+## Инсталация (публикувани пакети)
+
+```bash
+npm install laravel-svelte-elements
+composer require dobrys/laravel-svelte-elements
+```
+
+- npm: [`laravel-svelte-elements`](https://www.npmjs.com/package/laravel-svelte-elements)
+- Packagist: [`dobrys/laravel-svelte-elements`](https://packagist.org/packages/dobrys/laravel-svelte-elements)
+  — source за composer пакета е разделен (`git subtree split`) в отделно repo
+  [`dobrys/svelte-elements-for-laravel`](https://github.com/dobrys/svelte-elements-for-laravel),
+  защото Packagist изисква `composer.json` в root-а на репото, а не в
+  поддиректория на монорепо. Виж "Публикуване на нова версия" по-долу.
+
+## Локално тестване в консуматор проект (при разработка на пакетите)
 
 **npm пакет** — през `npm link` или директен `file:` път в `package.json`:
 
@@ -52,8 +66,24 @@ cd /path/to/consumer-app && npm link laravel-svelte-elements
   composer пакетът сервира директно `lang/{locale}.json`, JS страната само
   извиква подадения `translationsUrl`.
 
-## Следващи стъпки (не са направени още)
+## Публикуване на нова версия
 
-- [ ] Решение дали да се публикуват публично (npm/Packagist) или остават
-      частни (private registry / VCS repository).
-- [ ] LICENSE файлове (README-тата споменават MIT, но липсва самият файл).
+**npm** — от `packages/laravel-svelte-elements/`:
+
+```bash
+npm version patch   # или minor/major — вдига version в package.json + git tag локално
+npm publish          # изисква npm login/OTP; виж "Access Tokens" в npmjs.com за bypass-2FA токен
+```
+
+**composer** — `packages/laravel-svelte-elements-laravel/` в монорепото е dev копие;
+публикуваният source е отделно repo (`svelte-elements-for-laravel`), синхронизирано
+чрез git remote `svelte-elements-for-laravel`, добавен в това repo:
+
+```bash
+git subtree push --prefix=packages/laravel-svelte-elements-laravel svelte-elements-for-laravel main
+cd /path/to/clone/на/svelte-elements-for-laravel   # или клонирай наново
+git tag vX.Y.Z && git push --tags
+```
+
+Packagist-webhook-ът на `svelte-elements-for-laravel` обновява пакета
+автоматично при нов push/tag — не изисква ръчен "Update" на packagist.org.
