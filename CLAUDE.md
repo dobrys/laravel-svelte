@@ -4,8 +4,7 @@
 
 ## Какво е това
 
-Монорепо с два свързани, но отделно публикувани пакета, извлечени от
-Svelte-в-Laravel механизма на проекта `html-laravel-vite-full-version`:
+Монорепо с два свързани, но отделно публикувани пакета,
 Vite entry, който компилира Svelte компоненти като нативни Custom Elements,
 автоматично генерирана registry-карта (tag → dynamic import) и runtime loader
 с lazy-load + `MutationObserver` за динамично добавени тагове (Livewire

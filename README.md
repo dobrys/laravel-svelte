@@ -1,9 +1,7 @@
 # laravel-svelte
 
 Два свързани пакета за качване на Svelte компоненти като нативни Custom
-Elements в Laravel (Blade/Livewire) проекти, извлечени от механизма в
-`html-laravel-vite-full-version` (Vite entry `svelte-all.js` → auto-generated
-registry → lazy load + MutationObserver за динамично добавени тагове).
+Elements в Laravel (Blade/Livewire) проекти.
 
 ```
 packages/
@@ -56,8 +54,6 @@ cd /path/to/consumer-app && npm link laravel-svelte-elements
 
 ## Следващи стъпки (не са направени още)
 
-- [ ] Реален тест в `html-laravel-vite-full-version` (path repo/npm link) —
-      да се провери дали ~93-те компонента се зареждат идентично.
 - [ ] Решение дали да се публикуват публично (npm/Packagist) или остават
       частни (private registry / VCS repository).
 - [ ] LICENSE файлове (README-тата споменават MIT, но липсва самият файл).
