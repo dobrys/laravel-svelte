@@ -5,15 +5,9 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../packages/laravel-svelte-elements-laravel"
-        }
-    ],
     "require": {
         "php": "^8.3",
-        "dobrys/laravel-svelte-elements": "@dev",
+        "dobrys/laravel-svelte-elements": "^0.1.0",
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0"
     },

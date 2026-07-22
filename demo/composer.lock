@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9318766d79b016aebc7aeef69f0af138",
+    "content-hash": "c225296c53c35c7077348de82ad5d415",
     "packages": [
         {
             "name": "brick/math",
@@ -211,11 +211,17 @@
         },
         {
             "name": "dobrys/laravel-svelte-elements",
-            "version": "dev-main",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dobrys/svelte-elements-for-laravel.git",
+                "reference": "b3efb7924fc8c23035be55bf3c03200f4d4896c4"
+            },
             "dist": {
-                "type": "path",
-                "url": "../packages/laravel-svelte-elements-laravel",
-                "reference": "92983fd77a5cb05e3f438c3c31f59057e9b94249"
+                "type": "zip",
+                "url": "https://api.github.com/repos/dobrys/svelte-elements-for-laravel/zipball/b3efb7924fc8c23035be55bf3c03200f4d4896c4",
+                "reference": "b3efb7924fc8c23035be55bf3c03200f4d4896c4",
+                "shasum": ""
             },
             "require": {
                 "illuminate/support": "^10.0 || ^11.0 || ^12.0 || ^13.0",
@@ -234,13 +240,16 @@
                     "Dobrys\\SvelteElements\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Laravel service provider companion for the laravel-svelte-elements npm package — serves translations JSON and publishes Vite/JS stubs for Svelte custom elements.",
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "issues": "https://github.com/dobrys/svelte-elements-for-laravel/issues",
+                "source": "https://github.com/dobrys/svelte-elements-for-laravel/tree/v0.1.0"
+            },
+            "time": "2026-07-22T13:21:47+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -8319,9 +8328,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "dobrys/laravel-svelte-elements": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

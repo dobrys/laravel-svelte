@@ -7,7 +7,7 @@
         "dev": "vite"
     },
     "dependencies": {
-        "laravel-svelte-elements": "file:../packages/laravel-svelte-elements"
+        "laravel-svelte-elements": "^0.1.0"
     },
     "devDependencies": {
         "@sveltejs/vite-plugin-svelte": "^7.0.0",
